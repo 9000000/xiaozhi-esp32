@@ -20,3 +20,5 @@
 
 * Nếu dùng SPI hoặc dùng loại màn hình khác, hãy sửa lại config.h và code khởi tạo display cho phù hợp..
 # test
+# test
+# test
