@@ -77,6 +77,24 @@ void McpServer::AddCommonTools() {
             });
     }
 
+    auto led = board.GetLed();
+    if (led) {
+        AddTool("self.led.set_color",
+            "Set the color of the LED. The color is specified by red, green, and blue components.",
+            PropertyList({
+                Property("red", kPropertyTypeInteger, 0, 255),
+                Property("green", kPropertyTypeInteger, 0, 255),
+                Property("blue", kPropertyTypeInteger, 0, 255)
+            }),
+            [led](const PropertyList& properties) -> ReturnValue {
+                uint8_t red = static_cast<uint8_t>(properties["red"].value<int>());
+                uint8_t green = static_cast<uint8_t>(properties["green"].value<int>());
+                uint8_t blue = static_cast<uint8_t>(properties["blue"].value<int>());
+                led->SetRgb(red, green, blue);
+                return true;
+            });
+    }
+
 #ifdef HAVE_LVGL
     auto display = board.GetDisplay();
     if (display && display->GetTheme() != nullptr) {
