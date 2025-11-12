@@ -1,6 +1,9 @@
 #ifndef BOARD_H
 #define BOARD_H
 
+#include <memory>
+#include <vector>
+
 #include <http.h>
 #include <web_socket.h>
 #include <mqtt.h>
@@ -12,6 +15,8 @@
 #include "backlight.h"
 #include "camera.h"
 #include "assets.h"
+#include "music.h"
+#include "radio.h"
 
 
 void* create_board();
@@ -29,13 +34,16 @@ protected:
     // 软件生成的设备唯一标识
     std::string uuid_;
 
+    Music* music_;
+	Radio* Radio_;
+
 public:
     static Board& GetInstance() {
         static Board* instance = static_cast<Board*>(create_board());
         return *instance;
     }
 
-    virtual ~Board() = default;
+    virtual ~Board();
     virtual std::string GetBoardType() = 0;
     virtual std::string GetUuid() { return uuid_; }
     virtual Backlight* GetBacklight() { return nullptr; }
@@ -44,6 +52,8 @@ public:
     virtual bool GetTemperature(float& esp32temp);
     virtual Display* GetDisplay();
     virtual Camera* GetCamera();
+    virtual Music* GetMusic();
+    virtual Radio* GetRadio();
     virtual NetworkInterface* GetNetwork() = 0;
     virtual void StartNetwork() = 0;
     virtual const char* GetNetworkStateIcon() = 0;
@@ -52,6 +62,11 @@ public:
     virtual void SetPowerSaveMode(bool enabled) = 0;
     virtual std::string GetBoardJson() = 0;
     virtual std::string GetDeviceStatusJson() = 0;
+		    
+private:
+ 
+	
+	
 };
 
 #define DECLARE_BOARD(BOARD_CLASS_NAME) \

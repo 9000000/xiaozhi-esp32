@@ -160,7 +160,9 @@ private:
     std::vector<Property> properties_;
 
 public:
-    PropertyList() = default;
+
+ PropertyList() = default;
+
     PropertyList(const std::vector<Property>& properties) : properties_(properties) {}
     void AddProperty(const Property& property) {
         properties_.push_back(property);
